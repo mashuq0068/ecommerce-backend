@@ -11,4 +11,4 @@ const orderSchema = new Schema<IOrder>({
 
 
 
-export const OrderModel = model<IOrder>('order' , orderSchema)
+export const OrderModel = model<IOrder>('order' , orderSchema);
