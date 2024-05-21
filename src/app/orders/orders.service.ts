@@ -7,14 +7,20 @@ const createOrderIntoDB = async (order: IOrder) => {
   if (!existedProduct) {
     return "not-existed";
   }
-  if(existedProduct.inventory.quantity < order.quantity){
+  if(existedProduct?.inventory?.quantity < order?.quantity){
     return "not-available"
   }
-  await ProductModel.findByIdAndUpdate(order.productId , {$inc:{"inventory.quantity" : -order?.quantity}})
   const result = await OrderModel.create(order);
+  await ProductModel.findByIdAndUpdate(order.productId , {$inc:{"inventory.quantity" : -order?.quantity}})
   return result;
 };
 
+const getOrdersFromDB = async() => {
+    const result = await OrderModel.find()
+    return result
+}
+
 export const orderServices = {
   createOrderIntoDB,
+  getOrdersFromDB
 };
