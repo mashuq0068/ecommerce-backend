@@ -18,6 +18,8 @@ const productSchema = new Schema<IProduct>({
   tags: { type: [String], required: true },
   variants: { type: [variantSchema], required: true },
   inventory: { type: inventorySchema, required: true },
-});
+})
+
+productSchema.index({name:1 , description : 1 , category:1})
 
 export const ProductModel = model<IProduct>('product' , productSchema)

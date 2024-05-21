@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import ProductValidationSchema from './products.validation';
 import { productServices } from './products.service';
+import ProductValidationSchema from './products.validation';
 
 const createProduct = async (
   req: Request,
@@ -23,6 +23,15 @@ const createProduct = async (
 
 const getProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (req.query.searchTerm) {
+      const searchedText = req.query.searchTerm
+      const result = await productServices.getProductsFromDB(searchedText as string);
+      res.status(200).json({
+        success: true,
+        message: 'Products fetched successfully!',
+        data: result,
+      });
+    }
     const result = await productServices.getProductsFromDB();
     res.status(200).json({
       success: true,
@@ -58,11 +67,12 @@ const updateSingleProduct = async (
   next: NextFunction,
 ) => {
   try {
-    const updatedProduct = req.body
+    const updatedProduct = req.body;
+    const parsedUpdatedProduct = ProductValidationSchema.parse(updatedProduct)
     const id = req.params.productId;
-    const result = await productServices.updateSingleDataFromDB(
-        id,
-        updatedProduct
+    const result = await productServices.updateSingleProductFromDB(
+      id,
+      parsedUpdatedProduct,
     );
     res.status(200).json({
       success: true,
@@ -73,9 +83,28 @@ const updateSingleProduct = async (
     next(error);
   }
 };
+
+const deleteSingleProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = req.params.productId;
+    const result = await productServices.deleteSingleProductFromDB(id);
+    res.status(200).json({
+      success: true,
+      message: 'Product deleted successfully!',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const productControllers = {
   createProduct,
   getProducts,
   getSingleProduct,
-  updateSingleProduct
+  updateSingleProduct,
+  deleteSingleProduct,
 };
