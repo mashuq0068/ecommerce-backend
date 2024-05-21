@@ -6,7 +6,7 @@ export default [
   {
     languageOptions: {
       globals: globals.browser,
-      process: "readonly",
+      // : "readonly",process
     },
     ignores: ['**/node_modules/', '.dist/'],
     rules: {

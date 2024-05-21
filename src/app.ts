@@ -24,7 +24,7 @@ app.all('*', (req: Request, res: Response) => {
   });
 });
 
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+app.use((error:any, req: Request, res: Response, next: NextFunction) => {
   if (error) {
     res.status(500).json({
       success: false,
