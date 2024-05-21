@@ -29,18 +29,19 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 const getOrders = async (req: Request, res: Response, next: NextFunction) => {
-   try{const result = await orderServices.getOrdersFromDB()
+  try {
+    const email = req.query.email
+    const result = await orderServices.getOrdersFromDB(email as string);
     res.status(200).json({
-        success: true,
-        message: 'Orders fetched successfully!',
-        data: result,
-      });
-    } catch(error){
-        next(error)
-    }
-
+      success: true,
+      message: 'Orders fetched successfully!',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 export const orderControllers = {
   createOrder,
-  getOrders
+  getOrders,
 };
