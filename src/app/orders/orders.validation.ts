@@ -8,3 +8,4 @@ const OrderValidationSchema = z.object({
   quantity: z.number(),
 });
 
+export {OrderValidationSchema}
