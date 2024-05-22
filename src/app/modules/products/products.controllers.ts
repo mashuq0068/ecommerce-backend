@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { productServices } from './products.service';
 import ProductValidationSchema from './products.validation';
 
+// create a product
 const createProduct = async (
   req: Request,
   res: Response,
@@ -21,6 +22,7 @@ const createProduct = async (
   }
 };
 
+// get all products
 const getProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (req.query.searchTerm) {
@@ -43,6 +45,7 @@ const getProducts = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// get a single product by Id
 const getSingleProduct = async (
   req: Request,
   res: Response,
@@ -61,6 +64,7 @@ const getSingleProduct = async (
   }
 };
 
+// update a single product
 const updateSingleProduct = async (
   req: Request,
   res: Response,
@@ -84,6 +88,8 @@ const updateSingleProduct = async (
   }
 };
 
+
+// delete a single products
 const deleteSingleProduct = async (
   req: Request,
   res: Response,

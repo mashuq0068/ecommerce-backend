@@ -4,13 +4,18 @@ import IOrder from './orders.interface';
 
 const createOrderIntoDB = async (order: IOrder) => {
   const existedProduct = await ProductModel.findById(order?.productId);
+  // if product id given wrong and product not existed
   if (!existedProduct) {
     return 'not-existed';
   }
+  // if the ordered quantity exceeds the available quantity
   if (existedProduct?.inventory?.quantity < order?.quantity) {
     return 'not-available';
   }
+
+  // if everything ok then order will be crated
   const result = await OrderModel.create(order);
+  // after creating an order product quantity will be changed
   await ProductModel.findByIdAndUpdate(order.productId, {
     $inc: { 'inventory.quantity': -order?.quantity },
   });

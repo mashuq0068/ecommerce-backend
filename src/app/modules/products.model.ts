@@ -20,14 +20,20 @@ const productSchema = new Schema<IProduct>({
   inventory: { type: inventorySchema, required: true },
 })
 
+// indexing some fields for search
 productSchema.index({name:1 , description : 1 , category:1})
+
+// pre hook for find to maintain inStock value
 productSchema.pre('find' , async function(next){
   await this.model.updateMany({ "inventory.quantity": 0 }, { "inventory.inStock": false });
   await this.model.updateMany({ "inventory.quantity": { $gt: 0 } }, { "inventory.inStock": true });
   next();
 })
+
+// pre hook for findOne to maintain inStock value
 productSchema.pre('findOne' , async function(next){
   await this.model.updateMany({ "inventory.quantity": 0 }, { "inventory.inStock": false });
+  // if in future any product get updated and changed the value of quantity then inStock will be true again, if it is getter than 0.
   await this.model.updateMany({ "inventory.quantity": { $gt: 0 } }, { "inventory.inStock": true });
   next();
 })
