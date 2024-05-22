@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IInventory, IProduct, IVariant } from './products/products.interface';
+import { IInventory, IProduct, IVariant } from './products.interface';
 
 const variantSchema = new Schema<IVariant>({
   type: { type: String, required: true },
