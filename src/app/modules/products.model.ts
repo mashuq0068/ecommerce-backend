@@ -22,14 +22,14 @@ const productSchema = new Schema<IProduct>({
 
 productSchema.index({name:1 , description : 1 , category:1})
 productSchema.pre('find' , async function(next){
-    await ProductModel.updateMany({"inventory.quantity": 0} , {"inventory.inStock": false})
-    await ProductModel.updateMany({"inventory.quantity" : {$gt: 0}} , {"inventory.inStock": true})
-    next()
+  await this.model.updateMany({ "inventory.quantity": 0 }, { "inventory.inStock": false });
+  await this.model.updateMany({ "inventory.quantity": { $gt: 0 } }, { "inventory.inStock": true });
+  next();
 })
 productSchema.pre('findOne' , async function(next){
-    await ProductModel.updateMany({"inventory.quantity": 0} , {"inventory.inStock": false})
-    await ProductModel.updateMany({"inventory.quantity" : {$gt: 0}} , {"inventory.inStock": true})
-    next()
+  await this.model.updateMany({ "inventory.quantity": 0 }, { "inventory.inStock": false });
+  await this.model.updateMany({ "inventory.quantity": { $gt: 0 } }, { "inventory.inStock": true });
+  next();
 })
 
 export const ProductModel = model<IProduct>('product' , productSchema)
