@@ -1,13 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { productRoutes } from './app/modules/products/products.routes';
-import { orderRoutes } from './app/modules/orders/orders.routes';
+import { skillRoutes } from './app/modules/skills/skills.route';
+import { projectRoutes } from './app/modules/projects/projects.route';
+import { blogRoutes } from './app/modules/blogs/blogs.route';
 const app: Application = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
+app.use('/api/skills', skillRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/blogs', blogRoutes);
 
 app.get('/health', async (req: Request, res: Response, next: NextFunction) => {
   try {
